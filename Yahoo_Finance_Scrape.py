@@ -10,8 +10,7 @@ import pandas as pd
 
 from tech_stocks import get_tech_stocks
 
-tickers = ["ORCL", "AAPL", "GOOG", "ADBE", "FB"]
-# tickers = get_tech_stocks()
+tickers = get_tech_stocks()
 
 df1 = pd.DataFrame(columns=["Average Volume", "Market Cap", "Beta", "P/E Ratio", "EPS"])
 
