@@ -1,11 +1,6 @@
-import os
-
-# taken from https://www.tutorialspoint.com/how-to-clear-screen-in-python
-def screen_clear():
-    if os.name == "posix":
-        _ = os.system("clear")
-    else:
-        _ = os.system("cls")
+import eq_utilities
+import eq_stocks
+import eq_data
 
 
 def main_menu():
@@ -19,37 +14,41 @@ def main_menu():
         print("4. Update data")
         print("5. Exit")
 
+        # validate input
         response = input()
         try:
             response = int(response)
         except:
-            screen_clear()
+            eq_utilities.screen_clear()
             print("Not a valid response. Try again!")
             continue
 
         # sanity checks
         if response > 5 or response < 1:
-            screen_clear()
+            eq_utilities.screen_clear()
             print("Not a valid response. Try again!")
             continue
         # else we're all good
 
         # See stocks
         if response == 1:
-            screen_clear()
-            pass
+            eq_utilities.screen_clear()
+            # stock menu event loop
+            eq_stocks.print_stock_menu()
+        # TODO
         # Stock simulator
         elif response == 2:
-            screen_clear()
+            eq_utilities.screen_clear()
             pass
+        # TODO
         # See recent financial news
         elif response == 3:
-            screen_clear()
+            eq_utilities.screen_clear()
             pass
         # Update data
         elif response == 4:
-            screen_clear()
-            pass
+            eq_utilities.screen_clear()
+            eq_data.update_data()
         # Exit
         elif response == 5:
             break

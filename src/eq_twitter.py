@@ -9,6 +9,10 @@ api = twitter.Api(
     "UbHoxvZky0ZcJQwQ0hpb6oIlDu01Dd3IuMslv0nzVmg2A",
 )
 
+# TODO
+def retrieve_handle_from_ticker(ticker):
+    pass
+
 
 def scrape_timeline(handle):
     timeline = api.GetUserTimeline(screen_name=handle, count=200)
