@@ -59,8 +59,3 @@ def update_data():
 
     df1.to_csv("../data/finance_stats.csv")
     df2.to_csv("../data/closing_prices.csv")
-
-
-if __name__ == "__main__":
-    update_data()
-

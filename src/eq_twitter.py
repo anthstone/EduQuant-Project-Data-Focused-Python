@@ -241,7 +241,3 @@ def scrape_timeline(handle):
             l.append(tweet["text"])
 
     return l
-
-
-if __name__ == "__main__":
-    pass

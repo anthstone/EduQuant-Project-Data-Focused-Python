@@ -1,16 +1,42 @@
 import eq_utilities
+import pandas as pd
 
-# load_portfolio
+
+def load_portfolio():
+    try:
+        portfolio = pd.read_csv("../data/portfolio.csv", index_col="Ticker")
+    except:
+        portfolio = pd.Dataframe(
+            columns=[
+                "Ticker",
+                "Date Purchased",
+                "Time held (days)",
+                "Price",
+                "Change since purchase",
+            ],
+            index_col="Ticker",
+        )
+
+    return portfolio
+
+
+def save_portfolio(portfolio):
+    portfolio.to_csv("../data/portfolio.csv")
 
 
 def print_sim_menu():
     while True:
+        portfolio = load_portfolio()
         print("EduQuant Stock Simulator")
         print()
         print()
+        if portfolio.empty:
+            print("No portfolio yet! Buy some stocks to get started.")
+        else:
+            print(portfolio)
+        print()
+        print()
         print("What would you like to do?")
-
-        # display_portfolio()
 
         print("1. Purchase a stock")
         print("2. Sell a stock")
@@ -54,3 +80,7 @@ def print_sim_menu():
         if response == 4:
             eq_utilities.screen_clear()
             break
+
+
+if __name__ == "__main__":
+    print_sim_menu()
