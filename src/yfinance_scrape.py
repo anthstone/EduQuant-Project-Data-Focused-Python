@@ -4,16 +4,6 @@ import pandas as pd
 
 from tech_stocks import get_tech_stocks
 
-# TODO
-def get_finance_stats(ticker):
-    df = pd.read_csv("../data/finance_stats.csv")
-    print(df.loc[ticker])
-
-
-# TODO
-def get_closing_prices(ticker):
-    df = pd.read_csv("../data/closing_prices.csv")
-
 
 def fetch_finance_stats(ticker):
     d = {}
@@ -40,12 +30,13 @@ def fetch_closing_prices(ticker):
     for tr in tables[0].findAll("tr"):
         cells = tr.findAll("td")
         if len(cells) > 3:
-            d[cells[0].text] = cells[4].text
+            d[cells[0].text] = cells[4].text.replace(",", "")
 
     return d
 
 
 def update_data():
+    print("Updating stock data...")
     tickers = get_tech_stocks()
 
     # start with first ticker to set columns
@@ -72,6 +63,5 @@ def update_data():
 
 
 if __name__ == "__main__":
-    # get_finance_stats("AAPL")
-    # get_closing_prices("AAPL")
     update_data()
+

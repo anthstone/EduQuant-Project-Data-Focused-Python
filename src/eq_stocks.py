@@ -1,6 +1,9 @@
 import eq_utilities
+import eq_data
 import tech_stocks
-from pprint import pprint
+import matplotlib.pyplot as plt
+
+plt.style.use("fivethirtyeight")
 
 stock_list = tech_stocks.get_tech_stocks()
 
@@ -16,17 +19,50 @@ def get_tweets(ticker):
 # TODO
 def get_finance_stats(ticker):
     print(f"Financial statistics for {ticker}")
+    finance_stats = eq_data.get_finance_stats(ticker)
 
+    print(finance_stats)
     response = input()
     eq_utilities.screen_clear()
 
 
-# TODO
 def get_stock_prices(ticker):
-    print(f"Stock prices for {ticker}")
+    print(f"Stock prices for {ticker.upper()}")
+    print()
+    print()
+    closing_prices = eq_data.get_closing_prices(ticker)
 
-    response = input()
+    # print headers
+    print("Date", "\t\t\t", "Closing Price", "\t\t", "Change")
+
+    # print weekly price
+    for idx, val in enumerate(closing_prices[::5]):
+        print(val[0] + ":", end="")
+        print("\t\t", "{:>6}".format(val[1]), "\t\t", end="")
+
+        if idx * 5 < len(closing_prices) - 5:
+            diff = float(val[1]) - float(closing_prices[idx * 5 + 5][1])
+            print("{0:>6.2f}".format(diff))
+        else:
+            print()
+
+    print()
+    response = input("Would you like to generate a graph?(y/n): ")
+    if response.lower() == "y":
+        print_line_plot(closing_prices, ticker)
+
+    print()
+    input("Press enter to return...")
     eq_utilities.screen_clear()
+
+
+def print_line_plot(list_of_tuples, ticker):
+    unpacked = list(zip(*list_of_tuples))
+    plt.figure(figsize=(30, 15))
+    plt.plot(unpacked[0], unpacked[1])
+    plt.title(ticker.upper())
+    plt.xticks(rotation=45, ha="right")
+    plt.savefig("plot.png")
 
 
 def print_stock_list():
