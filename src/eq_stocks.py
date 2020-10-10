@@ -1,13 +1,11 @@
 import eq_utilities
 import eq_data
 import eq_twitter
-import tech_stocks
-import matplotlib.pyplot as plt
 import math
 
 plt.style.use("fivethirtyeight")
 
-stock_list = tech_stocks.get_tech_stocks()
+stock_list = eq_utilities.get_tech_stocks()
 
 
 def get_tweets(ticker):
@@ -74,20 +72,11 @@ def get_stock_prices(ticker):
     print()
     response = input("Would you like to generate a graph?(y/n): ")
     if response.lower() == "y":
-        print_line_plot(closing_prices, ticker)
+        eq_utilities.print_line_plot(closing_prices, ticker)
 
     print()
     input("Press enter to return...")
     eq_utilities.screen_clear()
-
-
-def print_line_plot(list_of_tuples, ticker):
-    unpacked = list(zip(*list_of_tuples))
-    plt.figure(figsize=(30, 15))
-    plt.plot(unpacked[0], unpacked[1])
-    plt.title(ticker.upper())
-    plt.xticks(rotation=45, ha="right")
-    plt.savefig("plot.png")
 
 
 def print_stock_list():
@@ -106,15 +95,6 @@ def print_stock_list():
         for i in l:
             print("{:<8s}".format(i), end="")
         print()
-
-
-def get_ticker_input():
-    while True:
-        ticker = input("Type the ticker of the stock you want to select: ")
-        if ticker.upper() in stock_list:
-            return ticker
-        else:
-            print("Not a valid ticker. Try again.")
 
 
 def print_stock_menu():
@@ -156,17 +136,17 @@ def print_stock_menu():
             print_stock_list()
         # Check a company's stock prices
         if response == 2:
-            ticker = get_ticker_input()
+            ticker = eq_utilities.get_ticker_input()
             eq_utilities.screen_clear()
             get_stock_prices(ticker)
         # Check a company's financial statistics
         if response == 3:
-            ticker = get_ticker_input()
+            ticker = eq_utilities.get_ticker_input()
             eq_utilities.screen_clear()
             get_finance_stats(ticker)
         # Read a company's tweets
         if response == 4:
-            ticker = get_ticker_input()
+            ticker = eq_utilities.get_ticker_input()
             eq_utilities.screen_clear()
             get_tweets(ticker)
         # Back to main menu

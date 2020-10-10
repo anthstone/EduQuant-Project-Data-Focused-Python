@@ -1,8 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-
-from tech_stocks import get_tech_stocks
+import eq_utilities
 
 
 def fetch_finance_stats(ticker):
@@ -37,7 +36,7 @@ def fetch_closing_prices(ticker):
 
 def update_data():
     print("Updating stock data...")
-    tickers = get_tech_stocks()
+    tickers = eq_utilities.get_tech_stocks()
 
     # start with first ticker to set columns
     d = fetch_finance_stats(tickers[0])

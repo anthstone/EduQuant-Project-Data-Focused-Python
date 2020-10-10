@@ -1,6 +1,7 @@
-import eq_utilities
-import eq_stocks
 import eq_data
+import eq_simulator
+import eq_stocks
+import eq_utilities
 
 
 def main_menu():
@@ -35,16 +36,15 @@ def main_menu():
             eq_utilities.screen_clear()
             # stock menu event loop
             eq_stocks.print_stock_menu()
-        # TODO
         # Stock simulator
         elif response == 2:
             eq_utilities.screen_clear()
-            pass
+            # simulator menu event loop
+            eq_simulator.print_sim_menu()
         # TODO
         # See recent financial news
         elif response == 3:
             eq_utilities.screen_clear()
-            pass
         # Update data
         elif response == 4:
             eq_utilities.screen_clear()
