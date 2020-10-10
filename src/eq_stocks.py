@@ -1,5 +1,6 @@
 import eq_utilities
 import eq_data
+import eq_twitter
 import tech_stocks
 import matplotlib.pyplot as plt
 import math
@@ -9,11 +10,19 @@ plt.style.use("fivethirtyeight")
 stock_list = tech_stocks.get_tech_stocks()
 
 
-# TODO
 def get_tweets(ticker):
-    print(f"Tweets for {ticker}")
+    print(f"Recent tweets for {ticker.upper()}")
+    print()
+    print()
+    handle = eq_twitter.retrieve_handle_from_ticker(ticker)
+    timeline = eq_twitter.scrape_timeline(handle)
 
-    response = input()
+    for tweet in timeline:
+        print(tweet)
+        print()
+
+    print()
+    input("Press enter to return...")
     eq_utilities.screen_clear()
 
 
