@@ -10,6 +10,7 @@ def get_tweets(ticker):
     print(f"Tweets for {ticker}")
 
     response = input()
+    eq_utilities.screen_clear()
 
 
 # TODO
@@ -17,6 +18,7 @@ def get_finance_stats(ticker):
     print(f"Financial statistics for {ticker}")
 
     response = input()
+    eq_utilities.screen_clear()
 
 
 # TODO
@@ -24,6 +26,7 @@ def get_stock_prices(ticker):
     print(f"Stock prices for {ticker}")
 
     response = input()
+    eq_utilities.screen_clear()
 
 
 def print_stock_list():

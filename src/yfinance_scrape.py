@@ -6,50 +6,72 @@ from tech_stocks import get_tech_stocks
 
 # TODO
 def get_finance_stats(ticker):
-    pass
+    df = pd.read_csv("../data/finance_stats.csv")
+    print(df.loc[ticker])
 
 
 # TODO
 def get_closing_prices(ticker):
-    pass
+    df = pd.read_csv("../data/closing_prices.csv")
+
+
+def fetch_finance_stats(ticker):
+    d = {}
+    r = requests.get(f"https://finance.yahoo.com/quote/{ticker}?p={ticker}")
+    soup = BeautifulSoup(r.text, "lxml")
+    tables = soup.findAll("table")
+    try:
+        d["Average Volume"] = tables[0].findAll("tr")[7].findAll("td")[1].text
+        d["Market Cap"] = tables[1].findAll("tr")[0].findAll("td")[1].text
+        d["Beta"] = tables[1].findAll("tr")[1].findAll("td")[1].text
+        d["P/E Ratio"] = tables[1].findAll("tr")[2].findAll("td")[1].text
+        d["EPS"] = tables[1].findAll("tr")[3].findAll("td")[1].text
+    except:
+        d = {}
+
+    return d
+
+
+def fetch_closing_prices(ticker):
+    d = {}
+    r = requests.get(f"https://finance.yahoo.com/quote/{ticker}/history?p={ticker}")
+    soup = BeautifulSoup(r.text, "lxml")
+    tables = soup.findAll("table")
+    for tr in tables[0].findAll("tr"):
+        cells = tr.findAll("td")
+        if len(cells) > 3:
+            d[cells[0].text] = cells[4].text
+
+    return d
 
 
 def update_data():
     tickers = get_tech_stocks()
 
-    for ticker in tickers:
+    # start with first ticker to set columns
+    d = fetch_finance_stats(tickers[0])
+    df1 = pd.DataFrame(columns=d.keys())
+    df1.loc[tickers[0]] = d.values()
+
+    # start with first ticker to set columns
+    d = fetch_closing_prices(tickers[0])
+    df2 = pd.DataFrame(columns=d.keys())
+    df2.loc[tickers[0]] = d.values()
+
+    for ticker in tickers[1:]:
         # financial info
-        df1 = pd.DataFrame(
-            columns=["Average Volume", "Market Cap", "Beta", "P/E Ratio", "EPS"]
-        )
-        r = requests.get(f"https://finance.yahoo.com/quote/{ticker}?p={ticker}")
-        soup = BeautifulSoup(r.text, "lxml")
-        tables = soup.findAll("table")
-        average_volume = tables[0].findAll("tr")[7].findAll("td")[1].text
-        market_cap = tables[1].findAll("tr")[0].findAll("td")[1].text
-        beta = tables[1].findAll("tr")[1].findAll("td")[1].text
-        pe_ratio = tables[1].findAll("tr")[2].findAll("td")[1].text
-        eps = tables[1].findAll("tr")[3].findAll("td")[1].text
-        df1.loc[ticker] = {
-            "Average Volume": average_volume,
-            "Market Cap": market_cap,
-            "Beta": beta,
-            "P/E Ratio": pe_ratio,
-            "EPS": eps,
-        }
+        d = fetch_finance_stats(ticker)
+        df1.loc[ticker] = d
 
         # closing prices
-        df2 = pd.DataFrame(columns=["Closing Price"])
-        r = requests.get(f"https://finance.yahoo.com/quote/{ticker}/history?p={ticker}")
-        soup = BeautifulSoup(r.text, "lxml")
-        tables = soup.findAll("table")
-        for tr in tables[0].findAll("tr"):
-            cells = tr.findAll("td")
-            if len(cells) > 3:
-                df2.loc[cells[0].text] = cells[4].text
+        d = fetch_closing_prices(ticker)
+        df2.loc[ticker] = d
+
+    df1.to_csv("../data/finance_stats.csv")
+    df2.to_csv("../data/closing_prices.csv")
 
 
 if __name__ == "__main__":
-    get_finance_stats("nada")
-    get_closing_prices("nada")
+    # get_finance_stats("AAPL")
+    # get_closing_prices("AAPL")
     update_data()
