@@ -2,6 +2,7 @@ import eq_utilities
 import eq_data
 import tech_stocks
 import matplotlib.pyplot as plt
+import math
 
 plt.style.use("fivethirtyeight")
 
@@ -16,13 +17,28 @@ def get_tweets(ticker):
     eq_utilities.screen_clear()
 
 
-# TODO
 def get_finance_stats(ticker):
     print(f"Financial statistics for {ticker}")
+    print()
+    print()
     finance_stats = eq_data.get_finance_stats(ticker)
 
-    print(finance_stats)
-    response = input()
+    for i in finance_stats:
+        print("{:<15s}".format(i + ":"), "\t", end="")
+
+        # change "nan" to "N/A" for prettier printing
+        if type(finance_stats[i]) == float:
+            if math.isnan(finance_stats[i]):
+                to_print = "N/A"
+            else:
+                to_print = str(finance_stats[i])
+        else:
+            to_print = str(finance_stats[i])
+
+        print("{:>10s}".format(to_print))
+
+    print()
+    input("Press enter to return...")
     eq_utilities.screen_clear()
 
 
