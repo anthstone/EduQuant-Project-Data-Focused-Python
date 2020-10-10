@@ -6,7 +6,7 @@ def load_portfolio():
     try:
         portfolio = pd.read_csv("../data/portfolio.csv", index_col="Ticker")
     except:
-        portfolio = pd.Dataframe(
+        portfolio = pd.DataFrame(
             columns=[
                 "Ticker",
                 "Date Purchased",
@@ -14,8 +14,8 @@ def load_portfolio():
                 "Price",
                 "Change since purchase",
             ],
-            index_col="Ticker",
         )
+        portfolio.set_index("Ticker")
 
     return portfolio
 
