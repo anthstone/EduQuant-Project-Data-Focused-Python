@@ -1,6 +1,6 @@
 import twitter
 import pandas as pd
-
+import eq_utilities
 
 api = twitter.Api(
     "xjBcMPKQDKtmS9YOxRjDs2v4T",
@@ -9,7 +9,7 @@ api = twitter.Api(
     "UbHoxvZky0ZcJQwQ0hpb6oIlDu01Dd3IuMslv0nzVmg2A",
 )
 
-# TODO
+
 def retrieve_handle_from_ticker(ticker):
     if ticker.upper() == "AAPL":
         handle = "Apple"
@@ -113,8 +113,6 @@ def retrieve_handle_from_ticker(ticker):
         handle = "TheTradeDesk"
     elif ticker.upper() == "AMZN":
         handle = "Amazon"
-    elif ticker.upper() == "TSM":
-        handle = None
     elif ticker.upper() == "ORCL":
         handle = "Oracle"
     elif ticker.upper() == "SAP":
@@ -128,33 +126,33 @@ def retrieve_handle_from_ticker(ticker):
     elif ticker.upper() == "DDD":
         handle = "3dsystems"
     elif ticker.upper() == "ACIW":
-        handle = "Apple"
+        handle = "ACI_Worldwide"
     elif ticker.upper() == "ADTN":
-        handle = "Apple"
+        handle = "ADTRAN"
     elif ticker.upper() == "AKAM":
-        handle = "Apple"
+        handle = "Akamai"
     elif ticker.upper() == "MDRX":
-        handle = "Apple"
+        handle = "Allscripts"
     elif ticker.upper() == "ALTR":
-        handle = "Apple"
+        handle = "Altair_Inc"
     elif ticker.upper() == "DOX":
-        handle = "Apple"
+        handle = "Amdocs"
     elif ticker.upper() == "AZPN":
-        handle = "Apple"
+        handle = "AspenTech"
     elif ticker.upper() == "CACI":
-        handle = "Apple"
+        handle = "CACIIntl"
     elif ticker.upper() == "CIEN":
-        handle = "Apple"
+        handle = "Ciena"
     elif ticker.upper() == "CRUS":
-        handle = "Apple"
+        handle = "CirrusLogic"
     elif ticker.upper() == "CVLT":
-        handle = "Apple"
+        handle = "Commvault"
     elif ticker.upper() == "GLW":
-        handle = "Apple"
+        handle = "Corning"
     elif ticker.upper() == "CREE":
-        handle = "Apple"
+        handle = "Cree"
     elif ticker.upper() == "DBD":
-        handle = "Apple"
+        handle = "DieboldNixdorf"
     elif ticker.upper() == "EQIX":
         handle = "Equinix"
     elif ticker.upper() == "FFIV":
@@ -162,59 +160,59 @@ def retrieve_handle_from_ticker(ticker):
     elif ticker.upper() == "FICO":
         handle = "FICO"
     elif ticker.upper() == "GRMN":
-        handle = "Apple"
+        handle = "Garmin"
     elif ticker.upper() == "IT":
-        handle = "Apple"
+        handle = "Gartner_inc"
     elif ticker.upper() == "GWRE":
-        handle = "Apple"
+        handle = "Guidewire_PandC"
     elif ticker.upper() == "IDCC":
-        handle = "Apple"
+        handle = "InterDigitalCom"
     elif ticker.upper() == "JCOM":
-        handle = "Apple"
+        handle = "j2global"
     elif ticker.upper() == "JNPR":
-        handle = "Apple"
+        handle = "JuniperNetworks"
     elif ticker.upper() == "LHX":
-        handle = "Apple"
+        handle = "L3HarrisTech"
     elif ticker.upper() == "LDOS":
-        handle = "Apple"
+        handle = "LeidosInc"
     elif ticker.upper() == "MRVL":
-        handle = "Apple"
+        handle = "marvellsemi"
     elif ticker.upper() == "MSI":
-        handle = "Apple"
+        handle = "MotorolaUS"
     elif ticker.upper() == "NCR":
-        handle = "Apple"
+        handle = "NCRCorporation"
     elif ticker.upper() == "NTAP":
-        handle = "Apple"
+        handle = "NetApp"
     elif ticker.upper() == "NLOK":
-        handle = "Apple"
+        handle = "NortonLifelock"
     elif ticker.upper() == "NUAN":
-        handle = "Apple"
+        handle = "NuanceInc"
     elif ticker.upper() == "ON":
         handle = "onsemi"
     elif ticker.upper() == "PANW":
-        handle = "Apple"
+        handle = "PaloAltoNtwks"
     elif ticker.upper() == "PBI":
-        handle = "Apple"
+        handle = "PitneyBowes"
     elif ticker.upper() == "PLT":
-        handle = "Apple"
+        handle = "Plantronics"
     elif ticker.upper() == "PRGS":
-        handle = "Apple"
+        handle = "ProgressSW"
     elif ticker.upper() == "PTC":
-        handle = "Apple"
+        handle = "PTC"
     elif ticker.upper() == "SAIC":
-        handle = "Apple"
+        handle = "SAICinc"
     elif ticker.upper() == "STX":
-        handle = "Apple"
+        handle = "Seagate"
     elif ticker.upper() == "SMTC":
-        handle = "Apple"
+        handle = "SMTCCorporation"
     elif ticker.upper() == "NOW":
-        handle = "Apple"
+        handle = "servicenow"
     elif ticker.upper() == "SLAB":
-        handle = "Apple"
+        handle = "siliconlabs"
     elif ticker.upper() == "SSNC":
-        handle = "Apple"
+        handle = "SSCTechnologies"
     elif ticker.upper() == "SYNA":
-        handle = "Apple"
+        handle = "SynaCorp"
     elif ticker.upper() == "TDC":
         handle = "Teradata"
     elif ticker.upper() == "TER":

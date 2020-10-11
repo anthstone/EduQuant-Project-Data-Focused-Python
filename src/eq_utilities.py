@@ -55,7 +55,6 @@ def get_tech_stocks():
         "ZG",
         "TTD",
         "AMZN",
-        "TSM",
         "ORCL",
         "SAP",
         "IBM",
