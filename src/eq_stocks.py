@@ -1,31 +1,81 @@
 import eq_utilities
-import tech_stocks
-from pprint import pprint
+import eq_data
+import eq_twitter
+import math
 
-stock_list = tech_stocks.get_tech_stocks()
+plt.style.use("fivethirtyeight")
+
+stock_list = eq_utilities.get_tech_stocks()
 
 
-# TODO
 def get_tweets(ticker):
-    print(f"Tweets for {ticker}")
+    print(f"Recent tweets for {ticker.upper()}")
+    print()
+    print()
+    handle = eq_twitter.retrieve_handle_from_ticker(ticker)
+    timeline = eq_twitter.scrape_timeline(handle)
 
-    response = input()
+    for tweet in timeline:
+        print(tweet)
+        print()
+
+    print()
+    input("Press enter to return...")
     eq_utilities.screen_clear()
 
 
-# TODO
 def get_finance_stats(ticker):
     print(f"Financial statistics for {ticker}")
+    print()
+    print()
+    finance_stats = eq_data.get_finance_stats(ticker)
 
-    response = input()
+    for i in finance_stats:
+        print("{:<15s}".format(i + ":"), "\t", end="")
+
+        # change "nan" to "N/A" for prettier printing
+        if type(finance_stats[i]) == float:
+            if math.isnan(finance_stats[i]):
+                to_print = "N/A"
+            else:
+                to_print = str(finance_stats[i])
+        else:
+            to_print = str(finance_stats[i])
+
+        print("{:>10s}".format(to_print))
+
+    print()
+    input("Press enter to return...")
     eq_utilities.screen_clear()
 
 
-# TODO
 def get_stock_prices(ticker):
-    print(f"Stock prices for {ticker}")
+    print(f"Stock prices for {ticker.upper()}")
+    print()
+    print()
+    closing_prices = eq_data.get_closing_prices(ticker)
 
-    response = input()
+    # print headers
+    print("Date", "\t\t\t", "Closing Price", "\t\t", "Change")
+
+    # print weekly price
+    for idx, val in enumerate(closing_prices[::5]):
+        print(val[0] + ":", end="")
+        print("\t\t", "{:>6}".format(val[1]), "\t\t", end="")
+
+        if idx * 5 < len(closing_prices) - 5:
+            diff = float(val[1]) - float(closing_prices[idx * 5 + 5][1])
+            print("{0:>6.2f}".format(diff))
+        else:
+            print()
+
+    print()
+    response = input("Would you like to generate a graph?(y/n): ")
+    if response.lower() == "y":
+        eq_utilities.print_line_plot(closing_prices, ticker)
+
+    print()
+    input("Press enter to return...")
     eq_utilities.screen_clear()
 
 
@@ -45,15 +95,6 @@ def print_stock_list():
         for i in l:
             print("{:<8s}".format(i), end="")
         print()
-
-
-def get_ticker_input():
-    while True:
-        ticker = input("Type the ticker of the stock you want to select: ")
-        if ticker.upper() in stock_list:
-            return ticker
-        else:
-            print("Not a valid ticker. Try again.")
 
 
 def print_stock_menu():
@@ -95,17 +136,17 @@ def print_stock_menu():
             print_stock_list()
         # Check a company's stock prices
         if response == 2:
-            ticker = get_ticker_input()
+            ticker = eq_utilities.get_ticker_input()
             eq_utilities.screen_clear()
             get_stock_prices(ticker)
         # Check a company's financial statistics
         if response == 3:
-            ticker = get_ticker_input()
+            ticker = eq_utilities.get_ticker_input()
             eq_utilities.screen_clear()
             get_finance_stats(ticker)
         # Read a company's tweets
         if response == 4:
-            ticker = get_ticker_input()
+            ticker = eq_utilities.get_ticker_input()
             eq_utilities.screen_clear()
             get_tweets(ticker)
         # Back to main menu
