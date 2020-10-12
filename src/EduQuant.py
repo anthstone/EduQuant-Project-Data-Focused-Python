@@ -21,13 +21,17 @@ def main_menu():
             response = int(response)
         except:
             eq_utilities.screen_clear()
-            print("Not a valid response. Try again!")
+            print("-----------Not a valid response. Try again!")
+            print()
+            print()
             continue
 
         # sanity checks
         if response > 5 or response < 1:
             eq_utilities.screen_clear()
-            print("Not a valid response. Try again!")
+            print("-----------Not a valid response. Try again!")
+            print()
+            print()
             continue
         # else we're all good
 
@@ -55,8 +59,6 @@ def main_menu():
 
 
 def main():
-    # load data from files
-
     # main menu, start interaction
     main_menu()
     print("See you later!")

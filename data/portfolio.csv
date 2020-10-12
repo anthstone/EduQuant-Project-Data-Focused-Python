@@ -1,3 +1,21 @@
-Ticker,"Date Purchased","Time held (days)",Price,"Change since purchase"
-AAPL,"Oct 9,2020",1,431.04,4.12
-GOOG,"Sep 11,2020",41,23.02,-39.10
+Ticker,Date Purchased,Time held (days),Current Price,Purchase Price,Change since purchase
+Cash,,,122.9800000000019,0.0,0
+GOOG,"October 11, 2020",0.0,1515.22,1515.22,0
+ADBE,"October 11, 2020",0.0,502.16,502.16,0
+ORCL,"October 11, 2020",0.0,61.15,61.15,0
+ADSK,"October 11, 2020",0.0,237.5,237.5,0
+AMAT,"October 11, 2020",0.0,63.29,63.29,0
+AMD,"October 11, 2020",0.0,83.1,83.1,0
+INTU,"October 11, 2020",0.0,341.81,341.81,0
+TSLA,"October 11, 2020",0.0,434.0,434.0,0
+AMZN,"October 11, 2020",0.0,3286.65,3286.65,0
+TTD,"October 11, 2020",0.0,613.11,613.11,0
+CACI,"October 11, 2020",0.0,213.44,213.44,0
+EQIX,"October 11, 2020",0.0,829.35,829.35,0
+FICO,"October 11, 2020",0.0,442.3,442.3,0
+PANW,"October 11, 2020",0.0,252.52,252.52,0
+NOW,"October 11, 2020",0.0,508.61,508.61,0
+TYL,"October 11, 2020",0.0,389.28,389.28,0
+TDC,"October 11, 2020",0.0,22.01,22.01,0
+TWTR,"October 11, 2020",0.0,45.9,45.9,0
+VSAT,"October 11, 2020",0.0,35.62,35.62,0

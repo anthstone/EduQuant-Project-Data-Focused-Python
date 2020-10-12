@@ -3,28 +3,47 @@ import pandas as pd
 import eq_utilities
 import zipfile
 
-#Open sec_fsds.csv and verify which files have been downloaded
+# Open sec_fsds.csv and verify which files have been downloaded
+
 
 def get_next_sec_fsds():
     df = pd.read_csv("../data/sec_fsds.csv")
-    for x in df['downloaded_data_distribution']:
+    for x in df["downloaded_data_distribution"]:
         most_recent_sec_fsds = x
     if int(most_recent_sec_fsds[5:6]) == 4:
-        get_file_url = 'https://www.sec.gov/files/dera/data/financial-statement-data-sets/' + str(int(most_recent_sec_fsds[0:4])+ 1) + "q1.zip"
+        get_file_url = (
+            "https://www.sec.gov/files/dera/data/financial-statement-data-sets/"
+            + str(int(most_recent_sec_fsds[0:4]) + 1)
+            + "q1.zip"
+        )
     else:
-        get_file_url= 'https://www.sec.gov/files/dera/data/financial-statement-data-sets/' + most_recent_sec_fsds[0:4] + "q" + str(int(most_recent_sec_fsds[5:6]) + 1) + ".zip"
+        get_file_url = (
+            "https://www.sec.gov/files/dera/data/financial-statement-data-sets/"
+            + most_recent_sec_fsds[0:4]
+            + "q"
+            + str(int(most_recent_sec_fsds[5:6]) + 1)
+            + ".zip"
+        )
     return get_file_url
     df.close()
 
+
 def add_file_to_sec_fsds(url):
     df = pd.read_csv("../data/sec_fsds.csv", sep=",", encoding="utf-8")
-    new_data = df.append(pd.DataFrame([[url[66:72]+".zip", 0, 0, 0, 0, 0, 0]], columns=df.columns))
+    new_data = df.append(
+        pd.DataFrame([[url[66:72] + ".zip", 0, 0, 0, 0, 0, 0]], columns=df.columns)
+    )
     new_data.to_csv("../data/sec_fsds.csv", index=False)
     df.close()
 
+
 def check_sec_menu(url):
     while True:
-        print("Would you like to check if the SEC has published Filing Data for " + url[66:72] + "?")
+        print(
+            "Would you like to check if the SEC has published Filing Data for "
+            + url[66:72]
+            + "?"
+        )
         print("Y/N")
         response = input()
         try:
@@ -39,8 +58,8 @@ def check_sec_menu(url):
             continue
         if response == "Y":
             eq_utilities.screen_clear()
-            if check_new_sec_exist(url)==True:
-                print("The SEC has published " + url[66:72] +"!")
+            if check_new_sec_exist(url) == True:
+                print("The SEC has published " + url[66:72] + "!")
                 will_download_file = True
             else:
                 print("There is no file")
@@ -63,9 +82,18 @@ def check_new_sec_exist(url):
 
 
 def download_new_sec_file(url):
-    print("Downloading " + url[66:72] + ".zip from the SEC. This may take several minutes...")
-    req = requests.get(url, stream = True)
-    data_loc = open("C:/Users/antho/Documents/GitHub/EduQuant-Project-Data-Focused-Python/data/sec_data_temp/" + url[66:72] + ".zip" ,'wb')
+    print(
+        "Downloading "
+        + url[66:72]
+        + ".zip from the SEC. This may take several minutes..."
+    )
+    req = requests.get(url, stream=True)
+    data_loc = open(
+        "C:/Users/antho/Documents/GitHub/EduQuant-Project-Data-Focused-Python/data/sec_data_temp/"
+        + url[66:72]
+        + ".zip",
+        "wb",
+    )
     for chunk in req.iter_content(chunk_size=512):
         if chunk:
             data_loc.write(chunk)
@@ -76,25 +104,36 @@ def download_new_sec_file(url):
 def process_data_file():
     df = pd.read_csv("../data/sec_fsds.csv", sep=",", encoding="utf-8")
     print(df)
-    
+
 
 def update_data():
-    #Check to see what file needs to be downloaded next from SEC
+    # Check to see what file needs to be downloaded next from SEC
     next_sec_url = str(get_next_sec_fsds())
     if check_sec_menu(next_sec_url) == True:
         download_new_sec_file(next_sec_url)
-        with zipfile.ZipFile("C:/Users/antho/Documents/GitHub/EduQuant-Project-Data-Focused-Python/data/sec_data_temp/" + next_sec_url[66:72] + ".zip", "r") as zip_ref:
-            zip_ref.extractall("C:/Users/antho/Documents/GitHub/EduQuant-Project-Data-Focused-Python/data/sec_data_temp/" + next_sec_url[66:72])
+        with zipfile.ZipFile(
+            # TODO
+            # replace with generic path
+            "C:/Users/antho/Documents/GitHub/EduQuant-Project-Data-Focused-Python/data/sec_data_temp/"
+            + next_sec_url[66:72]
+            + ".zip",
+            "r",
+        ) as zip_ref:
+            zip_ref.extractall(
+                # TODO
+                # replace with generic path
+                "C:/Users/antho/Documents/GitHub/EduQuant-Project-Data-Focused-Python/data/sec_data_temp/"
+                + next_sec_url[66:72]
+            )
         add_file_to_sec_fsds(next_sec_url)
         print("Processing lastest SEC data package...")
     else:
         print("SEC will not be checked for new data")
     print("Verifying data integrity")
-    
-    
 
 
 """
 TESTING
 """
-update_data()
+if __name__ == "__main__":
+    update_data()
