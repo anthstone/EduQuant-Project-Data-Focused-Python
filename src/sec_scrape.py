@@ -2,6 +2,8 @@ import requests
 import pandas as pd
 import eq_utilities
 import zipfile
+import os
+import numpy as np
 
 # Open sec_fsds.csv and verify which files have been downloaded
 
@@ -35,6 +37,9 @@ def add_file_to_sec_fsds(url):
     )
     new_data.to_csv("../data/sec_fsds.csv", index=False)
     df.close()
+    
+    
+    
 
 
 def check_sec_menu(url):
@@ -66,6 +71,7 @@ def check_sec_menu(url):
                 will_download_file = False
             break
         else:
+            will_download_file = False
             eq_utilities.screen_clear()
             break
     del response
@@ -89,7 +95,7 @@ def download_new_sec_file(url):
     )
     req = requests.get(url, stream=True)
     data_loc = open(
-        "C:/Users/antho/Documents/GitHub/EduQuant-Project-Data-Focused-Python/data/sec_data_temp/"
+        "../data/sec_data_temp/"
         + url[66:72]
         + ".zip",
         "wb",
@@ -101,9 +107,36 @@ def download_new_sec_file(url):
     print("The latest package has been downloaded!")
 
 
-def process_data_file():
-    df = pd.read_csv("../data/sec_fsds.csv", sep=",", encoding="utf-8")
-    print(df)
+def process_data_file(process_new_data, url):
+    df = pd.read_csv("../data/sec_fsds.csv", dtype={
+        'downloaded_data_distribution':str,
+        'num_proc':np.bool_,
+        'pre_proc':np.bool_,
+        'sub_proc':np.bool_,
+        'tag_proc':np.bool_,
+        'final_proc':np.bool_,
+        'flag':np.bool_
+        })
+    df2 = np.array(df)
+
+    for row in df:
+        for item in row:
+            if item == True:
+                print("True")
+                
+            else:
+                print("False")
+    print(df2[0:, :1])
+    if process_new_data == True:
+
+        """
+        os.remove("../data/sec_data_temp/"
+        + url[66:72]
+        + ".zip")
+        """
+    else:
+        pass
+
 
 
 def update_data():
@@ -114,7 +147,7 @@ def update_data():
         with zipfile.ZipFile(
             # TODO
             # replace with generic path
-            "C:/Users/antho/Documents/GitHub/EduQuant-Project-Data-Focused-Python/data/sec_data_temp/"
+            "../data/sec_data_temp/"
             + next_sec_url[66:72]
             + ".zip",
             "r",
@@ -122,14 +155,17 @@ def update_data():
             zip_ref.extractall(
                 # TODO
                 # replace with generic path
-                "C:/Users/antho/Documents/GitHub/EduQuant-Project-Data-Focused-Python/data/sec_data_temp/"
+                "../data/sec_data_temp/"
                 + next_sec_url[66:72]
             )
         add_file_to_sec_fsds(next_sec_url)
+        check_new_file = True
         print("Processing lastest SEC data package...")
     else:
         print("SEC will not be checked for new data")
+        check_new_file = False
     print("Verifying data integrity")
+    process_data_file(check_new_file, next_sec_url)
 
 
 """
