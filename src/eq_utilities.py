@@ -1,6 +1,8 @@
 import os
 import matplotlib.pyplot as plt
 
+plt.style.use("fivethirtyeight")
+
 
 def get_tech_stocks():
     tech_stocks = [

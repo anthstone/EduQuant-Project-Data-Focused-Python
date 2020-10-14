@@ -3,8 +3,6 @@ import eq_data
 import eq_twitter
 import math
 
-plt.style.use("fivethirtyeight")
-
 stock_list = eq_utilities.get_tech_stocks()
 
 
