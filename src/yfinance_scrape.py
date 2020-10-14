@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import eq_utilities
+from pathlib import Path
 
 
 def fetch_finance_stats(ticker):
@@ -35,6 +36,8 @@ def fetch_closing_prices(ticker):
 
 
 def update_data():
+    path = Path(__file__).parent.absolute().parent
+
     print("Updating stock data...")
     tickers = eq_utilities.get_tech_stocks()
 
@@ -57,5 +60,5 @@ def update_data():
         d = fetch_closing_prices(ticker)
         df2.loc[ticker] = d
 
-    df1.to_csv("../data/finance_stats.csv")
-    df2.to_csv("../data/closing_prices.csv")
+    df1.to_csv(path / "data" / "finance_stats.csv")
+    df2.to_csv(path / "data" / "closing_prices.csv")
