@@ -4,12 +4,14 @@ import eq_utilities
 import zipfile
 import os
 import numpy as np
+from pathlib import Path
 
 # Open sec_fsds.csv and verify which files have been downloaded
 
 
 def get_next_sec_fsds():
-    df = pd.read_csv("../data/sec_fsds.csv")
+    path = Path(__file__).parent.absolute().parent
+    df = pd.read_csv(path / "data" / "sec_fsds.csv")
     for x in df["downloaded_data_distribution"]:
         most_recent_sec_fsds = x
     if int(most_recent_sec_fsds[5:6]) == 4:
@@ -31,15 +33,13 @@ def get_next_sec_fsds():
 
 
 def add_file_to_sec_fsds(url):
-    df = pd.read_csv("../data/sec_fsds.csv", sep=",", encoding="utf-8")
+    path = Path(__file__).parent.absolute().parent
+    df = pd.read_csv(path / "data" / "sec_fsds.csv", sep=",", encoding="utf-8")
     new_data = df.append(
         pd.DataFrame([[url[66:72] + ".zip", 0, 0, 0, 0, 0, 0]], columns=df.columns)
     )
-    new_data.to_csv("../data/sec_fsds.csv", index=False)
+    new_data.to_csv(path / "data" / "sec_fsds.csv", index=False)
     df.close()
-    
-    
-    
 
 
 def check_sec_menu(url):
@@ -94,12 +94,8 @@ def download_new_sec_file(url):
         + ".zip from the SEC. This may take several minutes..."
     )
     req = requests.get(url, stream=True)
-    data_loc = open(
-        "../data/sec_data_temp/"
-        + url[66:72]
-        + ".zip",
-        "wb",
-    )
+    path = Path(__file__).parent.absolute().parent
+    data_loc = open(path / "data" / "sec_data_temp/" + url[66:72] + ".zip", "wb",)
     for chunk in req.iter_content(chunk_size=512):
         if chunk:
             data_loc.write(chunk)
@@ -108,22 +104,26 @@ def download_new_sec_file(url):
 
 
 def process_data_file(process_new_data, url):
-    df = pd.read_csv("../data/sec_fsds.csv", dtype={
-        'downloaded_data_distribution':str,
-        'num_proc':np.bool_,
-        'pre_proc':np.bool_,
-        'sub_proc':np.bool_,
-        'tag_proc':np.bool_,
-        'final_proc':np.bool_,
-        'flag':np.bool_
-        })
+    path = Path(__file__).parent.absolute().parent
+    df = pd.read_csv(
+        path / "data" / "sec_fsds.csv",
+        dtype={
+            "downloaded_data_distribution": str,
+            "num_proc": np.bool_,
+            "pre_proc": np.bool_,
+            "sub_proc": np.bool_,
+            "tag_proc": np.bool_,
+            "final_proc": np.bool_,
+            "flag": np.bool_,
+        },
+    )
     df2 = np.array(df)
 
     for row in df:
         for item in row:
             if item == True:
                 print("True")
-                
+
             else:
                 print("False")
     print(df2[0:, :1])
@@ -138,26 +138,16 @@ def process_data_file(process_new_data, url):
         pass
 
 
-
 def update_data():
+    path = Path(__file__).parent.absolute().parent
     # Check to see what file needs to be downloaded next from SEC
     next_sec_url = str(get_next_sec_fsds())
     if check_sec_menu(next_sec_url) == True:
         download_new_sec_file(next_sec_url)
         with zipfile.ZipFile(
-            # TODO
-            # replace with generic path
-            "../data/sec_data_temp/"
-            + next_sec_url[66:72]
-            + ".zip",
-            "r",
+            path / "data" / "sec_data_temp/" + next_sec_url[66:72] + ".zip", "r",
         ) as zip_ref:
-            zip_ref.extractall(
-                # TODO
-                # replace with generic path
-                "../data/sec_data_temp/"
-                + next_sec_url[66:72]
-            )
+            zip_ref.extractall(path / "data" / "sec_data_temp/" + next_sec_url[66:72])
         add_file_to_sec_fsds(next_sec_url)
         check_new_file = True
         print("Processing lastest SEC data package...")

@@ -23,10 +23,13 @@ def get_tweets(ticker):
 
 
 def get_finance_stats(ticker):
-    print(f"Financial statistics for {ticker}")
-    print()
-    print()
     finance_stats = eq_data.get_finance_stats(ticker)
+    if finance_stats is None:
+        return
+
+    print(f"Financial statistics for {ticker.upper()}")
+    print()
+    print()
 
     for i in finance_stats:
         print("{:<15s}".format(i + ":"), "\t", end="")
@@ -46,12 +49,17 @@ def get_finance_stats(ticker):
     input("Press enter to return...")
     eq_utilities.screen_clear()
 
+    return
+
 
 def get_stock_prices(ticker):
+    closing_prices = eq_data.get_closing_prices(ticker)
+    if closing_prices is None:
+        return
+
     print(f"Stock prices for {ticker.upper()}")
     print()
     print()
-    closing_prices = eq_data.get_closing_prices(ticker)
 
     # print headers
     print("Date", "\t\t\t", "Closing Price", "\t\t", "Change")
@@ -75,6 +83,8 @@ def get_stock_prices(ticker):
     print()
     input("Press enter to return...")
     eq_utilities.screen_clear()
+
+    return
 
 
 def print_stock_list():

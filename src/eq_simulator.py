@@ -2,6 +2,7 @@ import eq_data
 import eq_utilities
 import pandas as pd
 from datetime import date, datetime
+from pathlib import Path
 
 
 def sell_stock(ticker, portfolio):
@@ -73,7 +74,8 @@ def update_portfolio(portfolio):
 
 def load_portfolio():
     try:
-        portfolio = pd.read_csv("../data/portfolio.csv", index_col="Ticker")
+        path = Path(__file__).parent.absolute().parent
+        portfolio = pd.read_csv(path / "data" / "portfolio.csv", index_col="Ticker")
         portfolio = update_portfolio(portfolio)
     except:
         print("No portfolio yet. You have $10,000 to start buying some stocks.")
@@ -101,7 +103,7 @@ def load_portfolio():
 
 
 def save_portfolio(portfolio):
-    portfolio.to_csv("../data/portfolio.csv")
+    portfolio.to_csv(path / "data" / "portfolio.csv")
 
 
 def print_sim_menu():
@@ -153,7 +155,3 @@ def print_sim_menu():
         if response == 3:
             eq_utilities.screen_clear()
             break
-
-
-if __name__ == "__main__":
-    print_sim_menu()
