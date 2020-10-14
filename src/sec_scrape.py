@@ -105,7 +105,7 @@ def download_new_sec_file(url):
 
 def process_data_file(process_new_data, url):
     path = Path(__file__).parent.absolute().parent
-    df = pd.read_csv(
+    sec_fsds_data = pd.read_csv(
         path / "data" / "sec_fsds.csv",
         dtype={
             "downloaded_data_distribution": str,
@@ -117,18 +117,42 @@ def process_data_file(process_new_data, url):
             "flag": np.bool_,
         },
     )
-    df2 = np.array(df)
+    sec_fsds_array = np.array(sec_fsds_data)
+    
+    
+    company_list= pd.read_csv(
+        path / "data" / "company_list.csv",
+        dtype={
+            "Company ID": np.int16,
+            "Company Name": str,
+            "Stock Code": str,
+            "ALT_Company_Name":str
+            }
+        )
+    
 
-    for row in df:
+    for row in sec_fsds_data:
         for item in row:
             if item == True:
                 print("True")
             else:
                 print("False")
-    print(df2[0:, :1])
+    print(sec_fsds_array[0:, :1])
     if process_new_data == True:
+        #Process num.txt
+        
+        
+        #Process pre.txt
+        
+        
+        #Process sub.txt
+        
+        
+        #Process tag.txt
+
 
         """
+        #remove zip file
         os.remove("../data/sec_data_temp/"
         + url[66:72]
         + ".zip")
