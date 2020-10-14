@@ -123,7 +123,6 @@ def process_data_file(process_new_data, url):
         for item in row:
             if item == True:
                 print("True")
-
             else:
                 print("False")
     print(df2[0:, :1])
@@ -142,7 +141,9 @@ def update_data():
     path = Path(__file__).parent.absolute().parent
     # Check to see what file needs to be downloaded next from SEC
     next_sec_url = str(get_next_sec_fsds())
+    #Go to function and see if url exist to get new SEC data package
     if check_sec_menu(next_sec_url) == True:
+        #download new package with function and unpack
         download_new_sec_file(next_sec_url)
         with zipfile.ZipFile(
             path / "data" / "sec_data_temp/" + next_sec_url[66:72] + ".zip", "r",
