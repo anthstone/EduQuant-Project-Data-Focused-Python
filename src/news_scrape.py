@@ -12,6 +12,7 @@ import ssl
 
 
 def print_news():
+    print("Loading news stories...")
     # using soup pacakge to open url, google finance, and creating soup object
     html = urlopen(
         "https://www.google.com/finance",

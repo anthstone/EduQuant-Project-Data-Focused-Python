@@ -9,6 +9,7 @@ import eq_stocks
 import eq_utilities
 import yfinance_scrape
 import sec_scrape
+import news_scrape
 
 
 def main_menu():
@@ -56,6 +57,7 @@ def main_menu():
         # See recent financial news
         elif response == 3:
             eq_utilities.screen_clear()
+            news_scrape.print_news()
         # Update data
         elif response == 4:
             while True:
