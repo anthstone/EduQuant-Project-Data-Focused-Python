@@ -2,6 +2,9 @@ import twitter
 import pandas as pd
 import eq_utilities
 
+# this is not secure in any way shape or form
+# but it is a dummy account that I don't use
+# please don't abuse
 api = twitter.Api(
     "xjBcMPKQDKtmS9YOxRjDs2v4T",
     "8sK4L0kYM0VT8UecMu8IPZgd54O8d20uaSnFwiAQvcDz0AWVRB",
