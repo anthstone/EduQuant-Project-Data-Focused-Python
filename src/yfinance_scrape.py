@@ -35,7 +35,7 @@ def fetch_closing_prices(ticker):
     return d
 
 
-def update_data():
+def update_data(option="cp"):
     path = Path(__file__).parent.absolute().parent
 
     print("Updating stock data...")
@@ -43,22 +43,24 @@ def update_data():
 
     # start with first ticker to set columns
     d = fetch_finance_stats(tickers[0])
-    df1 = pd.DataFrame(columns=d.keys())
-    df1.loc[tickers[0]] = d.values()
+    df = pd.DataFrame(columns=d.keys())
+    df.loc[tickers[0]] = d.values()
 
-    # start with first ticker to set columns
-    d = fetch_closing_prices(tickers[0])
-    df2 = pd.DataFrame(columns=d.keys())
-    df2.loc[tickers[0]] = d.values()
+    if option == "cp":
+        path = path / "data" / "closing_prices.csv"
+    elif option == "fs":
+        path = path / "data" / "finance_stats.csv"
+    else:
+        return None
 
     for ticker in tickers[1:]:
-        # financial info
-        d = fetch_finance_stats(ticker)
-        df1.loc[ticker] = d
-
         # closing prices
-        d = fetch_closing_prices(ticker)
-        df2.loc[ticker] = d
+        if option == "cp":
+            d = fetch_closing_prices(ticker)
+        # financial info
+        elif option == "fs":
+            d = fetch_finance_stats(ticker)
 
-    df1.to_csv(path / "data" / "finance_stats.csv")
-    df2.to_csv(path / "data" / "closing_prices.csv")
+        df.loc[ticker] = d
+
+    df.to_csv(path)

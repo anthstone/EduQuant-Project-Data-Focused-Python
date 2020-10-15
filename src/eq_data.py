@@ -1,7 +1,4 @@
 import pandas as pd
-import news_scrape
-import sec_scrape
-import yfinance_scrape
 from pathlib import Path
 
 
@@ -23,8 +20,3 @@ def get_closing_prices(ticker):
     except FileNotFoundError:
         print("Data is missing. Try running 'Update Data' from the main menu")
         return None
-
-
-def update_data():
-    yfinance_scrape.update_data()
-    sec_scrape.update_data()

@@ -22,5 +22,5 @@
 
 ## Team members
 - Anthony Stone - astone2@andrew.cmu.edu
-- Tzu Ching Wang - tzuching@andrew.cmu.edu
+- Jim Wang - tzuching@andrew.cmu.edu
 - Alexander Talbott - atalbott@andrew.cmu.edu
