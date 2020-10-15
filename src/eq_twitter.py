@@ -19,7 +19,7 @@ api = twitter.Api(
     "UbHoxvZky0ZcJQwQ0hpb6oIlDu01Dd3IuMslv0nzVmg2A",
 )
 
-
+# convert from ticker to company twitter handle
 def retrieve_handle_from_ticker(ticker):
     if ticker.upper() == "AAPL":
         handle = "Apple"
@@ -239,6 +239,7 @@ def retrieve_handle_from_ticker(ticker):
     return handle
 
 
+# scrape the twitter timeline of a given handle
 def scrape_timeline(handle):
     timeline = api.GetUserTimeline(screen_name=handle, count=200)
 
