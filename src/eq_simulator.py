@@ -1,3 +1,10 @@
+# eq_simulator.py
+# Description: module for stock simulator
+# Authors: Anthony Stone
+#          Alexander Talbott
+#          Jim Wang
+
+
 import eq_data
 import eq_utilities
 import pandas as pd

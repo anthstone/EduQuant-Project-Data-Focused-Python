@@ -1,3 +1,10 @@
+# eq_data.py
+# Description: module to handle data retrieval
+# Authors: Anthony Stone
+#          Alexander Talbott
+#          Jim Wang
+
+
 import pandas as pd
 from pathlib import Path
 

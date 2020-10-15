@@ -1,3 +1,10 @@
+# eq_utilities.py
+# Description: modules containing many miscellaneous helper functions
+# Authors: Anthony Stone
+#          Alexander Talbott
+#          Jim Wang
+
+
 import os
 import matplotlib.pyplot as plt
 

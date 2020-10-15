@@ -11,6 +11,7 @@
   - `eq_simulator.py`: stock simulator
   - `eq_stocks.py`: handles all stock data (closing prices/financial statistics)
   - `eq_twitter.py`: handles all twitter interactions
+  - `eq_utilities.py`: contains many heavily used helper functions
   - `news_scrape.py`: scrapes recent financial news stories from Google Finance
   - `sec_scrape.py`: scrapes SEC filing data
   - `yfinance_scrape.py`: scrapes Yahoo Finance

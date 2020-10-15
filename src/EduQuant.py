@@ -1,3 +1,9 @@
+# EduQuant.py
+# Description: main module
+# Authors: Anthony Stone
+#          Alexander Talbott
+#          Jim Wang
+
 import eq_simulator
 import eq_stocks
 import eq_utilities

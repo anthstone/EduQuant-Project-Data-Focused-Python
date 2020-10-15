@@ -1,3 +1,10 @@
+# yfinance_scrape.py
+# Description: scrapes financial data from Yahoo Finance
+# Authors: Anthony Stone
+#          Alexander Talbott
+#          Jim Wang
+
+
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd

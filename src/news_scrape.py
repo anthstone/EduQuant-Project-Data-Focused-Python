@@ -1,3 +1,10 @@
+# news_scrape.py
+# Description: scrapes news stories from Google Finance
+# Authors: Anthony Stone
+#          Alexander Talbott
+#          Jim Wang
+
+
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 import certifi

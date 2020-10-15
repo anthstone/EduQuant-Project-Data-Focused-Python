@@ -1,3 +1,10 @@
+# eq_twitter.py
+# Description: module to interact with Twitter API
+# Authors: Anthony Stone
+#          Alexander Talbott
+#          Jim Wang
+
+
 import twitter
 import pandas as pd
 import eq_utilities

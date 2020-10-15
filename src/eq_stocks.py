@@ -1,3 +1,10 @@
+# eq_stocks.py
+# Description: module that handles most of the stock functionality
+# Authors: Anthony Stone
+#          Alexander Talbott
+#          Jim Wang
+
+
 import eq_utilities
 import eq_data
 import eq_twitter

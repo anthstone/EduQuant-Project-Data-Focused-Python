@@ -1,3 +1,10 @@
+# sec_scrape.py
+# Description: scrapes SEC filing data from the SEC website
+# Authors: Anthony Stone
+#          Alexander Talbott
+#          Jim Wang
+
+
 import requests
 import pandas as pd
 import eq_utilities
@@ -118,18 +125,16 @@ def process_data_file(process_new_data, url):
         },
     )
     sec_fsds_array = np.array(sec_fsds_data)
-    
-    
-    company_list= pd.read_csv(
+
+    company_list = pd.read_csv(
         path / "data" / "company_list.csv",
         dtype={
             "Company ID": np.int16,
             "Company Name": str,
             "Stock Code": str,
-            "ALT_Company_Name":str
-            }
-        )
-    
+            "ALT_Company_Name": str,
+        },
+    )
 
     for row in sec_fsds_data:
         for item in row:
@@ -139,17 +144,13 @@ def process_data_file(process_new_data, url):
                 print("False")
     print(sec_fsds_array[0:, :1])
     if process_new_data == True:
-        #Process num.txt
-        
-        
-        #Process pre.txt
-        
-        
-        #Process sub.txt
-        
-        
-        #Process tag.txt
+        # Process num.txt
 
+        # Process pre.txt
+
+        # Process sub.txt
+
+        # Process tag.txt
 
         """
         #remove zip file
@@ -165,9 +166,9 @@ def update_data():
     path = Path(__file__).parent.absolute().parent
     # Check to see what file needs to be downloaded next from SEC
     next_sec_url = str(get_next_sec_fsds())
-    #Go to function and see if url exist to get new SEC data package
+    # Go to function and see if url exist to get new SEC data package
     if check_sec_menu(next_sec_url) == True:
-        #download new package with function and unpack
+        # download new package with function and unpack
         download_new_sec_file(next_sec_url)
         with zipfile.ZipFile(
             path / "data" / "sec_data_temp/" + next_sec_url[66:72] + ".zip", "r",
