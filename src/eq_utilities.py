@@ -8,9 +8,10 @@
 import os
 import matplotlib.pyplot as plt
 
+# because it looks nice
 plt.style.use("fivethirtyeight")
 
-
+# a list of all tickers in EduQuant
 def get_tech_stocks():
     tech_stocks = [
         "AAPL",
@@ -124,15 +125,17 @@ def get_tech_stocks():
     return tech_stocks
 
 
+# generate a line plot from a list of tuples and a given title
 def print_line_plot(list_of_tuples, title):
     unpacked = list(zip(*list_of_tuples))
     plt.figure(figsize=(30, 15))
     plt.plot(unpacked[0], unpacked[1])
     plt.title(title.upper())
     plt.xticks(rotation=45, ha="right")
-    plt.savefig("plot.png")
+    plt.savefig(title + ".png")
 
 
+# check if the user inputted ticker is supported in EduQuant
 def get_ticker_input():
     while True:
         ticker = input("Type the ticker of the stock you want to select: ")
