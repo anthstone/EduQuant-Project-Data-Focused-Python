@@ -28,4 +28,3 @@ def get_closing_prices(ticker):
 def update_data():
     yfinance_scrape.update_data()
     sec_scrape.update_data()
-    news_scrape.update_data()
