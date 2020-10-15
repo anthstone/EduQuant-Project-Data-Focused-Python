@@ -12,12 +12,14 @@ import math
 
 stock_list = eq_utilities.get_tech_stocks()
 
-
+# get the twitter timeline of a given ticker and display it
 def get_tweets(ticker):
     print(f"Recent tweets for {ticker.upper()}")
     print()
     print()
+    # get corresponding handle from ticker
     handle = eq_twitter.retrieve_handle_from_ticker(ticker)
+    # scrape the timeline of tweets
     timeline = eq_twitter.scrape_timeline(handle)
 
     for tweet in timeline:
@@ -29,6 +31,7 @@ def get_tweets(ticker):
     eq_utilities.screen_clear()
 
 
+# get a ticker's corresponding financial statistics and display them
 def get_finance_stats(ticker):
     finance_stats = eq_data.get_finance_stats(ticker)
     if finance_stats is None:
@@ -49,7 +52,7 @@ def get_finance_stats(ticker):
                 to_print = str(finance_stats[i])
         else:
             to_print = str(finance_stats[i])
-
+        # make them look pretty
         print("{:>10s}".format(to_print))
 
     print()
@@ -59,6 +62,7 @@ def get_finance_stats(ticker):
     return
 
 
+# get recent closing prices from a given ticker
 def get_stock_prices(ticker):
     closing_prices = eq_data.get_closing_prices(ticker)
     if closing_prices is None:
@@ -72,17 +76,23 @@ def get_stock_prices(ticker):
     print("Date", "\t\t\t", "Closing Price", "\t\t", "Change")
 
     # print weekly price
+    # every 5 days = once a week
     for idx, val in enumerate(closing_prices[::5]):
         print(val[0] + ":", end="")
+        # print it pretty
         print("\t\t", "{:>6}".format(val[1]), "\t\t", end="")
 
+        # calculate the difference of a closing price compared
+        # to the closing price of one week ago (one week = 5 business days)
         if idx * 5 < len(closing_prices) - 5:
             diff = float(val[1]) - float(closing_prices[idx * 5 + 5][1])
+            # print it pretty
             print("{0:>6.2f}".format(diff))
         else:
             print()
 
     print()
+    # build a line plot of the recent closing prices
     response = input("Would you like to generate a graph?(y/n): ")
     if response.lower() == "y":
         eq_utilities.print_line_plot(closing_prices, ticker)
@@ -96,6 +106,7 @@ def get_stock_prices(ticker):
 
 def print_stock_list():
     print("All stocks in EduQuant:")
+    # zip into 8 lists in order to display 8 columns
     print_list = zip(
         stock_list[::8],
         stock_list[1::8],
@@ -113,6 +124,7 @@ def print_stock_list():
 
 
 def print_stock_menu():
+    # event loop
     while True:
         print(
             """
