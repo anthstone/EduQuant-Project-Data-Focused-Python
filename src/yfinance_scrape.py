@@ -48,17 +48,18 @@ def update_data(option="cp"):
     print("Updating stock data...")
     tickers = eq_utilities.get_tech_stocks()
 
-    # start with first ticker to set columns
-    d = fetch_finance_stats(tickers[0])
-    df = pd.DataFrame(columns=d.keys())
-    df.loc[tickers[0]] = d.values()
-
     if option == "cp":
         path = path / "data" / "closing_prices.csv"
+        d = fetch_closing_prices(tickers[0])
     elif option == "fs":
         path = path / "data" / "finance_stats.csv"
+        d = fetch_finance_stats(tickers[0])
     else:
         return None
+
+    # start with first ticker to set columns
+    df = pd.DataFrame(columns=d.keys())
+    df.loc[tickers[0]] = d.values()
 
     for ticker in tickers[1:]:
         # closing prices

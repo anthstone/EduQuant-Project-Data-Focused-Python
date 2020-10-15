@@ -22,8 +22,12 @@ def sell_stock(ticker, portfolio):
         portfolio.at["Cash", "Current Price"] += price
         # profit
         profit = (
-            portfolio.loc[ticker.upper()]["Current Price"]
-            - portfolio.loc[ticker.upper()]["Purchase Price"]
+            # round to 2 places
+            round(
+                portfolio.loc[ticker.upper()]["Current Price"]
+                - portfolio.loc[ticker.upper()]["Purchase Price"],
+                2,
+            )
         )
         print(f"Your profit from {ticker} is {profit}")
 
@@ -53,7 +57,7 @@ def purchase_stock(ticker, portfolio):
             "Time held (days)": 0,
             "Current Price": closing_price,
             "Purchase Price": closing_price,
-            "Change since purchase": 0,
+            "Change since purchase": 0.0,
         }
 
         portfolio.at["Cash", "Current Price"] -= closing_price
@@ -102,7 +106,7 @@ def load_portfolio():
             "Time held (days)": "-",
             "Current Price": 10000.0,
             "Purchase Price": 0,
-            "Change since purchase": 0,
+            "Change since purchase": 0.0,
         }
         save_portfolio(portfolio)
 
@@ -110,6 +114,7 @@ def load_portfolio():
 
 
 def save_portfolio(portfolio):
+    path = Path(__file__).parent.absolute().parent
     portfolio.to_csv(path / "data" / "portfolio.csv")
 
 
