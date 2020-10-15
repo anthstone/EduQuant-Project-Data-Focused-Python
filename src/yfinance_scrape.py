@@ -11,7 +11,7 @@ import pandas as pd
 import eq_utilities
 from pathlib import Path
 
-
+# retrieve financial statistics from Yahoo Finance for a given stock
 def fetch_finance_stats(ticker):
     d = {}
     r = requests.get(f"https://finance.yahoo.com/quote/{ticker}?p={ticker}")
@@ -29,11 +29,13 @@ def fetch_finance_stats(ticker):
     return d
 
 
+# retrieve current closing prices from Yahoo Finance for a given stock
 def fetch_closing_prices(ticker):
     d = {}
     r = requests.get(f"https://finance.yahoo.com/quote/{ticker}/history?p={ticker}")
     soup = BeautifulSoup(r.text, "lxml")
     tables = soup.findAll("table")
+    # this table contains a list of all daily closing prices
     for tr in tables[0].findAll("tr"):
         cells = tr.findAll("td")
         if len(cells) > 3:
@@ -42,6 +44,10 @@ def fetch_closing_prices(ticker):
     return d
 
 
+# call the fetching functions above to scrape
+# and store the scraped data in data files (csv)
+# two options: cp -> current prices
+#              fs -> financial statistics
 def update_data(option="cp"):
     path = Path(__file__).parent.absolute().parent
 
@@ -49,9 +55,11 @@ def update_data(option="cp"):
     tickers = eq_utilities.get_tech_stocks()
 
     if option == "cp":
+        # set save path
         path = path / "data" / "closing_prices.csv"
         d = fetch_closing_prices(tickers[0])
     elif option == "fs":
+        # set save path
         path = path / "data" / "finance_stats.csv"
         d = fetch_finance_stats(tickers[0])
     else:
@@ -61,6 +69,7 @@ def update_data(option="cp"):
     df = pd.DataFrame(columns=d.keys())
     df.loc[tickers[0]] = d.values()
 
+    # go through every ticker available in EduQuant
     for ticker in tickers[1:]:
         # closing prices
         if option == "cp":
