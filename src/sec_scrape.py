@@ -205,13 +205,13 @@ def process_data_file(process_new_data, url):
                 "former":str,
                 "changed":np.int32,
                 "afs":str,
-                "wksi":np.int8
+                "wksi":np.int8,
                 "fye":np.int16,
                 "form":str,
                 "period":np.int32,
                 "fy":np.int16,
                 "fp":str,
-                "filed":np.int32
+                "filed":np.int32,
                 "accepted":str,
                 "prevrpt":np.int8,
                 "detail":np.int8,
