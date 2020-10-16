@@ -1,7 +1,8 @@
-downloaded_data_distribution,num_proc,pre_proc,sub_proc,tag_proc,final_proc,flag
-2019q1.zip,False,False,False,False,False,False
-2019q2.zip,False,False,False,False,False,False
-2019q3.zip,False,False,False,False,False,False
-2019q4.zip,False,False,False,False,False,False
-2020q1.zip,False,False,False,False,False,False
-2020q2.zip,False,False,False,False,False,False
+downloaded_data_distribution
+2018q4.zip
+2019q1.zip
+2019q2.zip
+2019q3.zip
+2019q4.zip
+2020q1.zip
+2020q2.zip
