@@ -1,5 +1,5 @@
 # sec_scrape.py
-# Description: scrapes SEC filing data from the SEC website
+# Description: scrapes SEC filing data from the SEC website and processes
 # Authors: Anthony Stone
 #          Alexander Talbott
 #          Jim Wang
@@ -36,7 +36,7 @@ def get_next_sec_fsds():
             + ".zip"
         )
     return get_file_url
-    df.close()
+
 
 
 def add_file_to_sec_fsds(url):
@@ -46,8 +46,6 @@ def add_file_to_sec_fsds(url):
         pd.DataFrame([[url[66:72] + ".zip", False, False, False, False, False, False]], columns=df.columns)
     )
     new_data.to_csv(path / "data" / "sec_fsds.csv", index=False)
-    df.close()
-
 
 def check_sec_menu(url):
     while True:
@@ -56,6 +54,7 @@ def check_sec_menu(url):
             + url[66:72]
             + "?"
         )
+        print("You will need a minimum of 500MB of diskspace to process!")
         print("Y/N")
         response = input()
         try:
@@ -112,6 +111,8 @@ def download_new_sec_file(url):
 
 def process_data_file(process_new_data, url):
     path = Path(__file__).parent.absolute().parent
+    #Read sec_fsds_data, so we can determine which files have been processed
+    #and control flow
     sec_fsds_data = pd.read_csv(
         path / "data" / "sec_fsds.csv",
         dtype={
@@ -125,44 +126,114 @@ def process_data_file(process_new_data, url):
         },
     )
     sec_fsds_array = np.array(sec_fsds_data)
-    sec_fsds_data.close()
-    company_list = pd.read_csv(
+    url= sec_fsds_array[-1,0][0:6]
+    print(url)
+    
+    #Read company_list, so we can determine which companies are needed from SEC
+    company_list_data = pd.read_csv(
         path / "data" / "company_list.csv",
         dtype={
             "Company ID": np.int16,
             "Company Name": str,
             "Stock Code": str,
-            "ALT_Company_Name": str,
-        },
+            "ALT_Company_Name": str
+        }
     )
-    company_list()
+    #Create list of our companies
+    sec_company_list = company_list_data["ALT_Company_Name"].unique()
+    #remove nulls
+    sec_company_list = sec_company_list[~pd.isna(sec_company_list)]
+    print(sec_company_list[0:10])
+    
+    
     for row in sec_fsds_data:
         for item in row:
             if item == True:
-                print("True")
+                #print("True")
+                x=1
             else:
-                print("False")
-    print(sec_fsds_array[0:, :1])
+                x=2
+                #print("False")
+    #print(sec_fsds_array[0:, :1])
+    process_new_data =True
     if process_new_data == True:
+        """
+        Process SUB.TXT Data
+        This files must be processes first due to size and since it is the only
+        file that will relate back to the COMPANY_LIST.CSV.
+        """
+        print("processing SUB.TXT")
+        sub_txt = pd.read_csv(
+            path / "data" / "sec_data_temp"/url/"sub.txt",
+            sep="\t",
+            dtype={
+                "adsh":str,
+                "cik":np.int16,
+                "name":str, #FK to COMANY_LIST.CSV
+                "sic":np.single,
+                "countryba":str,
+                "stprba":str,
+                "cityba":str,
+                "zipba":str,
+                "bas1":str,
+                "bas2":str,
+                "baph":str,
+                "countryma":str,
+                "stprma":str,
+                "cityma":str,
+                "zipma":str,
+                "mas1":str,
+                "mas2":str,
+                "countryinc":str,
+                "stprinc":str,
+                "ein":np.int32,
+                "former":str,
+                "changed":np.double,
+                "afs":str,
+                "wksi":np.single,
+                "fye":np.double,
+                "form":str,
+                "period":np.double,
+                "fy":np.double,
+                "fp":str,
+                "filed":np.int32,
+                "accepted":str,
+                "prevrpt":np.int8,
+                "detail":np.int8,
+                "instance":str,
+                "nciks":np.int8,
+                "aciks":str
+                }
+            )
+        #Get all records in sub_txt where name is in company_list
+        sub_txt_comp_name = sub_txt[sub_txt["name"].isin(sec_company_list)]
+        #create list of all adsh value used, in order to reduce other tables
+        adsh_list = list(sub_txt_comp_name["adsh"])
+
         # Process num.txt
+        print("Processing NUM.TXT")
         num_txt = pd.read_csv(
-            path / "data" / "sec_data_temp"/(url[66:72]/"num.txt"),
+            path / "data" / "sec_data_temp"/url/"num.txt",
             sep="\t",
             dtype={
                 "adsh":str,
                 "tag":str,
                 "version":str,
                 "coreg":str,
-                "ddate":np.int32,
+                "ddate":np.double,
                 "qtrs":np.int8,
                 "uom":str,
-                "value":np.int32,
+                "value":np.double,
                 "footnote":str
                 }
             )
+        #Get all records in num_txt where adsh is in adsh_list
+        num_txt_adsh_match = num_txt[num_txt["adsh"].isin(adsh_list)]
+        tag_list_num = list(num_txt_adsh_match["tag"])
         # Process pre.txt
+        print("Processing PRE.TXT")
         pre_txt = pd.read_csv(
-            path / "data" / "sec_data_temp"/(url[66:72]/"pre.txt"),
+            path / "data" / "sec_data_temp"/url/"pre.txt",
             sep="\t",
             dtype={
                 "adsh":str,
@@ -177,52 +248,14 @@ def process_data_file(process_new_data, url):
                 "negating":np.int8                
                 }
             )
-        # Process sub.txt
-        sub_txt = pd.read_csv(
-            path / "data" / "sec_data_temp"/(url[66:72]/"sub.txt"),
-            sep="\t",
-            dtype={
-                "adsh":str,
-                "cik":np.int16,
-                "name":str,
-                "sic":np.int16,
-                "countryba":str,
-                "stprba":str,
-                "cityba":str,
-                "zipba":np.int32,
-                "bas1":str,
-                "bas2":str,
-                "baph":str,
-                "countryma":str,
-                "stprma":str,
-                "cityma":str,
-                "zipma":str,
-                "mas1":str,
-                "mas2":str,
-                "countryinc":str,
-                "stprinc":str,
-                "ein":np.int32,
-                "former":str,
-                "changed":np.int32,
-                "afs":str,
-                "wksi":np.int8,
-                "fye":np.int16,
-                "form":str,
-                "period":np.int32,
-                "fy":np.int16,
-                "fp":str,
-                "filed":np.int32,
-                "accepted":str,
-                "prevrpt":np.int8,
-                "detail":np.int8,
-                "instance":str,
-                "nciks":np.int8,
-                "aciks":str
-                }
-            )
+        
+        #Get all records in pre_txt where adsh is in adsh_list
+        pre_txt_adsh_match = pre_txt[pre_txt["adsh"].isin(adsh_list)]
+        tag_list_pre = list(pre_txt_adsh_match["tag"])
         # Process tag.txt
+        print("Processing TAG.TXT")
         tag_txt = pd.read_csv(
-            path / "data" / "sec_data_temp"/(url[66:72]/"tag.txt"),
+            path / "data" / "sec_data_temp"/url/"tag.txt",
             sep="\t",
             dtype={
                 "tag": str,
@@ -236,6 +269,25 @@ def process_data_file(process_new_data, url):
                 "doc":str
             }
             )
+        tag_num_match = tag_txt[tag_txt["tag"].isin(tag_list_num)]
+        tag_pre_match = tag_txt[tag_txt["tag"].isin(tag_list_pre)]
+        #merge data
+        print("...")
+        pre_merge_tag = pre_txt_adsh_match.merge(tag_pre_match, on = "tag")
+        pre_merge_tag.drop_duplicates()
+        print("...")
+        num_merge_tag = num_txt_adsh_match.merge(tag_num_match, on = "tag")
+        num_merge_tag.drop_duplicates()
+        print("...")
+        num_merge_pre = pre_merge_tag.merge(num_merge_tag, on = "adsh")
+        num_merge_pre.drop_duplicates()
+        print("...")
+        sec_merge_data = sub_txt_comp_name.merge(num_merge_pre, left_on = "adsh")
+        print("...")
+        sec_merge_data.drop_duplicates()
+        print("...")
+        sec_merge_data.to_csv(path / "data" / "SEC_data_table.csv")
+
         """
         #remove zip file
         os.remove("../data/sec_data_temp/"
