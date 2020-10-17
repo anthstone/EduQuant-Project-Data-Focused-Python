@@ -36,10 +36,13 @@ def fetch_closing_prices(ticker):
     soup = BeautifulSoup(r.text, "lxml")
     tables = soup.findAll("table")
     # this table contains a list of all daily closing prices
+    counter = 0
     for tr in tables[0].findAll("tr"):
-        cells = tr.findAll("td")
-        if len(cells) > 3:
-            d[cells[0].text] = cells[4].text.replace(",", "")
+        if counter < 90:
+            cells = tr.findAll("td")
+            if len(cells) > 3:
+                d[cells[0].text] = cells[4].text.replace(",", "")
+                counter += 1
 
     return d
 

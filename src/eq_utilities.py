@@ -133,6 +133,7 @@ def print_line_plot(list_of_tuples, title):
     plt.title(title.upper())
     plt.xticks(rotation=45, ha="right")
     plt.savefig(title + ".png")
+    print("Chart has been saved to the current directory")
 
 
 # check if the user inputted ticker is supported in EduQuant
