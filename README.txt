@@ -1,10 +1,14 @@
-# EduQuant
+EduQuant
 
-## Necessary installs
+Necessary installs
 - python-twitter
   - pip install python-twitter
 
-## Files
+To Run
+- from the main directory
+  - python src/EduQuant.py
+
+Files
 - src: directory that contains all source code
   - EduQuant.py: main program to be run
   - eq_data.py: handles all data retrieval from `data` directory
@@ -24,7 +28,7 @@
 -Tutorial Video:
 	XXXXXXXXXXX
 
-## Team members
+Team members
 - Anthony Stone - astone2@andrew.cmu.edu
 - Jim Wang - tzuching@andrew.cmu.edu
 - Alexander Talbott - atalbott@andrew.cmu.edu
