@@ -32,3 +32,8 @@ Team members
 - Anthony Stone - astone2@andrew.cmu.edu
 - Jim Wang - tzuching@andrew.cmu.edu
 - Alexander Talbott - atalbott@andrew.cmu.edu
+
+Known Issues
+- Sometimes on Windows computers, the graphs do not display correctly.
+  - For some reason the x and y axes automatically sort.
+  - This problem does not happen on Linux or Mac

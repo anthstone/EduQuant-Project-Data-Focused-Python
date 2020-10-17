@@ -42,18 +42,18 @@ def get_finance_stats(ticker):
     print()
 
     for i in finance_stats:
-        print("{:<15s}".format(i + ":"), "\t", end="")
+        print("{:<15s}".format(i + ":"), "\t\t", end="")
 
         # change "nan" to "N/A" for prettier printing
         if type(finance_stats[i]) == float:
             if math.isnan(finance_stats[i]):
                 to_print = "N/A"
             else:
-                to_print = str(finance_stats[i])
+                to_print = str(round(finance_stats[i], 2))
         else:
             to_print = str(finance_stats[i])
         # make them look pretty
-        print("{:>10s}".format(to_print))
+        print("{:>15s}".format(to_print))
 
     print()
     input("Press enter to return...")
