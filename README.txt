@@ -26,7 +26,7 @@ Files
   - SEC_data_table.csv and sec_fsds: most recent SEC filing data for all companies in EduQuant
   - portfolio.csv: records of user's stock portfolio; the stock they buy and sell as well as their avaliable currency
 -Tutorial Video:
-	XXXXXXXXXXX
+	https://youtu.be/AsMuNNs9A6c
 
 Team members
 - Anthony Stone - astone2@andrew.cmu.edu
