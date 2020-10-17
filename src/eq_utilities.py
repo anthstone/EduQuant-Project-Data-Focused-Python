@@ -129,7 +129,9 @@ def get_tech_stocks():
 def print_line_plot(list_of_tuples, title):
     unpacked = list(zip(*list_of_tuples))
     plt.figure(figsize=(30, 15))
-    plt.plot(unpacked[0], unpacked[1])
+    x = unpacked[0][::-1]
+    y = unpacked[1][::-1]
+    plt.plot(x, y)
     plt.title(title.upper())
     plt.xticks(rotation=45, ha="right")
     plt.savefig(title + ".png")
